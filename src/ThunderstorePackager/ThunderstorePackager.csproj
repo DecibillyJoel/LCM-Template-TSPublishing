@@ -1,12 +1,21 @@
 <!-- Don't change anything in here -->
-<Project>
-    <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
-
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
         <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
         <IsTSPackager>True</IsTSPackager>
         <ArtifactsPivots>\</ArtifactsPivots>
+
+        <!-- These help prevent the project from outputting files -->
+        <OutputType>Library</OutputType>
+        <EnableDefaultItems>false</EnableDefaultItems>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+        <GenerateDependencyFile>false</GenerateDependencyFile>
+        <CopyBuildOutputToOutputDirectory>false</CopyBuildOutputToOutputDirectory>
+
+        <!-- Silence CSC warning CS2008 "No source files specified." -->
+        <NoWarn>$(NoWarn);2008</NoWarn>
     </PropertyGroup>
     
     <!--
@@ -17,15 +26,4 @@
         <PackageReference Remove="**\*" />
         <ProjectReference Remove="**\*" />
     </ItemGroup>
-
-    <!-- This property ensures that dotnet publish does not call Build, which is important -->
-    <PropertyGroup>
-        <NoBuild>true</NoBuild>
-    </PropertyGroup>
-    <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
-    <Target Name="_CheckForBuildWithNoBuild" DependsOnTargets="" />
-    <Target Name="CreateManifestResourceNames" DependsOnTargets="" />
-    <Target Name="CoreCompile" DependsOnTargets="" />
-    <Target Name="CopyFilesToOutputDirectory" DependsOnTargets="" />
-    <Target Name="ComputeAndCopyFilesToPublishDirectory" DependsOnTargets="" />
 </Project>
